@@ -1,39 +1,23 @@
-pipeline {
-    agent any
+tools {
+    maven 'Maven3'
+}
 
-    tools {
-        maven 'Maven3'
+environment {
+    SONARQUBE = 'My SonarQube Server'
+}
+
+stages {
+    stage('Build') {
+        steps {
+            bat 'dir'
+            bat 'mvn clean install'
+        }
     }
 
-    environment {
-        SONARQUBE = 'My SonarQube Server'
-    }
-
-    stages {
-        stage('Clone Repository') {
-            steps {
-                bat 'git clone https://github.com/susan1231/demo1231.git'
-                dir('demo1231') {
-                    bat 'dir'
-                }
-            }
-        }
-
-        stage('Build') {
-            steps {
-                dir('demo1231') {
-                    bat 'mvn clean install'
-                }
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                dir('demo1231') {
-                    withSonarQubeEnv("${SONARQUBE}") {
-                        bat 'mvn sonar:sonar'
-                    }
-                }
+    stage('SonarQube Analysis') {
+        steps {
+            withSonarQubeEnv("${SONARQUBE}") {
+                bat 'mvn sonar:sonar'
             }
         }
     }
