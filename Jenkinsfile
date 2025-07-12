@@ -31,11 +31,11 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+       stage('SonarQube Analysis') {
             steps {
-                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
-                    withSonarQubeEnv("${SONARQUBE}") {
-                        bat "mvn sonar:sonar -Dsonar.login=%SONAR_TOKEN%"
+                dir('demo1231') {
+                    withSonarQubeEnv("${SONARQUBE}") {  // Run SonarQube analysis
+                        bat 'mvn sonar:sonar'
                     }
                 }
             }
