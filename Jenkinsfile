@@ -19,10 +19,11 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                bat 'git clone https://github.com/susan1231/demo1231.git'
-                dir('demo1231') {
-                    bat 'dir'
-                }
+                // Clone the repository from GitHub using the main branch
+                git branch: 'main', url: 'https://github.com/susan1231/demo1231.git'  // Replace with your repo URL
+                
+                // List files in the repository for debugging purposes
+                bat 'dir'
             }
         }
 
