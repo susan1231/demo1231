@@ -1,26 +1,19 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven3'  // Maven tool defined in Jenkins' global tools configuration
+    }
+
     environment {
-        SONARQUBE = 'My SonarQube Server'
+        SONARQUBE = 'My SonarQube Server'  // Name of your SonarQube server as configured in Jenkins
     }
 
     stages {
-        stage('Setup Maven') {
-            steps {
-                script {
-                    // Set up Maven tool installation named 'Maven3'
-                    env.MAVEN_HOME = tool 'Maven3'
-                    // Add Maven bin to PATH
-                    env.PATH = "${env.MAVEN_HOME}\\bin;${env.PATH}"
-                }
-            }
-        }
-
         stage('Clone Repository') {
             steps {
                 // Clone the repository from GitHub using the main branch
-                bat 'git clone https://github.com/susan1231/demo1231.git'
+              bat 'git clone https://github.com/susan1231/demo1231.git'// Replace with your repo URL
                 
                 // List files in the repository for debugging purposes
                 bat 'dir'
@@ -29,18 +22,16 @@ pipeline {
 
         stage('Build') {
             steps {
-                dir('demo1231') {
-                    bat 'mvn clean install'
-                }
+                // Run Maven clean install in the root directory (where pom.xml is)
+                bat 'mvn clean install'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
-                dir('demo1231') {
-                    withSonarQubeEnv("${SONARQUBE}") {
-                        bat 'mvn sonar:sonar'
-                    }
+                // Run SonarQube analysis in the root directory
+                withSonarQubeEnv("${SONARQUBE}") {  
+                    bat 'mvn sonar:sonar'
                 }
             }
         }
