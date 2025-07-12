@@ -20,7 +20,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 // Clone the repository from GitHub using the main branch
-                git branch: 'main', url: 'https://github.com/susan1231/demo1231.git'  // Replace with your repo URL
+                bat 'git clone https://github.com/susan1231/demo1231.git'
                 
                 // List files in the repository for debugging purposes
                 bat 'dir'
