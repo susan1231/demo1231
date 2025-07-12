@@ -12,8 +12,16 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                bat 'git clone https://github.com/susan1231/demo1231.git'
-                bat 'dir'
+                // Checking if the directory exists, if not then clone it
+                script {
+                    def repoDir = 'demo1231'
+                    if (!fileExists(repoDir)) {
+                        bat "git clone https://github.com/susan1231/demo1231.git ${repoDir}"
+                    }
+                }
+                dir('demo1231') {
+                    bat 'dir'  // List the directory to verify the clone
+                }
             }
         }
 
