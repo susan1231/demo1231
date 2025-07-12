@@ -32,7 +32,7 @@ stages {
     stage('SonarQube Analysis') {
         steps {
             dir('demo1231') {
-                withCredentials([string(credentialsId: 'susan183', variable: 'SONAR_TOKEN')]) {
+                withCredentials([string(credentialsId: 'abc', variable: 'SONAR_TOKEN')]) {
                     withSonarQubeEnv("${SONARQUBE}") {
                         bat "mvn sonar:sonar -Dsonar.login=%SONAR_TOKEN%"
                     }
