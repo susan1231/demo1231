@@ -31,14 +31,12 @@ pipeline {
             }
         }
 
-       stage('SonarQube Analysis') {
-            steps {
-                dir('demo1231') {
-                    withSonarQubeEnv("${SONARQUBE}") {  // Run SonarQube analysis
-                        bat 'mvn sonar:sonar'
-                    }
-                }
+         stage('SonarQube Analysis') {
+        withCredentials([string(credentialsId: 'susan183', variable: 'SONAR_TOKEN')]) {
+            withSonarQubeEnv('My SonarQube Server') {
+                bat "${mvnHome}\\bin\\mvn sonar:sonar -Dsonar.login=%SONAR_TOKEN%"
             }
         }
+    }
     }
 }
