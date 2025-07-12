@@ -9,8 +9,7 @@ environment {
 stages {
     stage('Clone Repository') {
         steps {
-            bat 'git clone https://github.com/susan1231/demo1231.git'
-            bat 'dir'
+            git url: 'https://github.com/susan1231/demo1231.git', branch: 'main'
         }
     }
 
